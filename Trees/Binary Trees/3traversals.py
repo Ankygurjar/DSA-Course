@@ -23,11 +23,13 @@ def PreOrderTraversal(head: TreeNode):
     PreOrderTraversal(head.left)
     PreOrderTraversal(head.right)
    
-def PostOrederTraversal(head: TreeNode):
+
+# PostOrderReaversal
+def PostOrderTraversal(head: TreeNode):
     if head is None:
         return
-    PostOrederTraversal(head.left)
-    PostOrederTraversal(head.right)
+    PostOrderTraversal(head.left)
+    PostOrderTraversal(head.right)
     print(head.data)
 
 
