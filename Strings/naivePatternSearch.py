@@ -5,7 +5,7 @@
 
 
 
-# Not Efficient
+# Less Efficient
 def patternSearching(s: str, p: str):
     idxArr = []
 
@@ -20,7 +20,21 @@ def patternSearching(s: str, p: str):
 
     return idxArr
 
-
+# Better Naive Approach
+def search(self,p,s):
+        #code here
+        
+        n = len(s)
+        m = len(p)
+        for i in range(0, n-m+1):
+            j = 0
+            while j < m:
+                if p[j] != s[i+j]:
+                    break
+                j += 1
+            if j == m:
+                return True
+        return False
 
 
 
