@@ -7,22 +7,17 @@ def fib(n: int) -> int: # Simple Rrcursion for Finding the Fibonacci
 
 
 
-n = 10
-
-memo = [-1] * (n + 1)
-
-
-def fib2(n: int) -> int:
-    if memo[n] == -1:
+def dp(self, number, memo): #Memoization
+    if memo[number] == -1:
         res = 0
-        if n == 0 or n == -1:
-            return n
+        if number == 0 or number == 1:
+            return number
         else:
-            res = fib(n - 1) + fib(n - 2)
-        memo[n] = res
-    return memo[n]
+            res = self.dp(number-1, memo) + self.dp(number-2, memo)
+        memo[number] = res
+    return memo[number]
 
-
+def dp
 
 
 
