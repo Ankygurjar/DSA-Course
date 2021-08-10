@@ -1,91 +1,53 @@
 class MinHeap:
-    def __init__(self, capacity) -> None:
-        self.storage = [0] * capacity
-        self.capacity = capacity
-        self.size = 0
+    def __init__(self, capacity: int) -> None:
+        self.capacity: int = capacity
+        self.arr: list = [0] * capacity
+        self.size: int = 0
 
-    def getParentIndex(self, index):
-        return (index - 1) // 2
+    def getLeft(self, i):
+        return (2 * i) + 1
 
-    def getLeftChildIndex(self, index):
-        return (index * 2) + 1
+    def getRight(self, i):
+        return (2 * i) + 2
 
-    def getRightChildIndex(self, index):
-        return (index * 2) + 2
+    def getParent(self, i):
+        return (i - 1) // 2
 
-    def hasParent(self, index):
-        return self.getParentIndex(index) >= 0
-
-    def hasLeftChild(self, index):
-        return self.getLeftChildIndex(index) < self.size
-
-    def hasRightChild(self, index):
-        return self.getRightChildIndex(index) < self.size
-
-    def parent(self, index):
-        return self.storage[self.getParentIndex(index)]
-
-    def leftChild(self, index):
-        return self.storage[self.getLeftChildIndex(index)]
-
-    def rightChild(self, index):
-        return self.storage[self.getRightChildIndex(index)]
-
-    def isFull(self):
-        return self.size == self.capacity
-
-    def swap(self, index1, index2):
-        temp = self.storage[index1]
-        self.storage[index1] = self.storage[index2]
-        self.storage[index2] = temp
-
-    def insert(self, data):
-        if self.isFull():
-            raise ("Heap is Full")
-        self.storage[self.size] = data
+    def insert(self, data: int):
+        if self.size == self.capacity:
+            return
         self.size += 1
-        self.heapifyUp()
-
-    def heapifyUp(self):
-        index = self.size - 1
-        while self.hasParent(index) and self.parent(index) > self.storage[index]:
-            self.swap(self.getParentIndex(index), index)
-            index = self.getParentIndex(index)
-
-    def heapifyDown(self):
-        index = 0
-        while self.hasLeftChild(index):
-            smallerChildIdx = self.getLeftChildIndex(index)
-            if self.hasRightChild(index) and self.rightChild(index) < self.leftChild(
-                index
-            ):
-                smallerChildIdx = self.getRightChildIndex(index)
-            if self.storage[index] < self.storage[smallerChildIdx]:
-                break
-            else:
-                self.swap(index, smallerChildIdx)
-
-    def removeMin(self):
-        if self.size == 0:
-            raise ("Heap is Full")
-        data = self.storage[0]
-        self.storage[0] = self.storage[self.size - 1]
-        self.size -= 1
-        self.heapifyDown()
-
-    def display(self):
-        print(self.storage)
+        self.arr[self.size - 1] = data
+        i = self.size - 1
+        while i != 0 and self.arr[self.getParent(i)] > self.arr[i]:
+            temp = self.arr[i]
+            self.arr[i] = self.arr[self.getParent(i)]
+            self.arr[self.getParent(i)] = temp
+            i = self.getParent(i)
 
 
-heap = MinHeap(20)
-heap.insert(10)
-heap.insert(20)
-heap.insert(15)
-heap.insert(40)
-heap.insert(50)
-heap.insert(100)
-heap.insert(25)
-heap.insert(45)
-heap.insert(12)
-heap.removeMin()
-heap.display()
+def heapify(arr, i):
+    lt = (i * 2) + 1
+    rt = (i * 2) + 2
+    size = len(arr)
+    smallest = i
+    if lt < size and arr[lt] < arr[i]:
+        smallest = lt
+    if rt < size and arr[rt] < arr[smallest]:
+        smallest = rt
+    if smallest != i:
+        temp = arr[i]
+        arr[i] = arr[smallest]
+        arr[smallest] = temp
+        heapify(arr, smallest)
+
+
+ob = MinHeap(10)
+arr = [10, 30, 40, 20, 35, 100, 70, 60, 80, 32]
+for i in range(len(arr)):
+    heapify(arr, i)
+
+for i in range(len(arr)):
+    ob.insert(arr[i])
+
+print(arr == ob.arr)
